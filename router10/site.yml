@@ -1,0 +1,23 @@
+- name: setup router10
+  hosts:
+  - router10
+
+  roles:
+  - name: disable_ipv6
+    tags: disable_ipv6
+
+  - name: ntp
+    tags: ntp
+
+  - name: cacert
+    tags: cacert
+
+  - name: sssd
+    tags: sssd
+  
+  - name: routing
+    tags: routing
+
+  - name: dhcpd
+    tags: dhcpd
+
