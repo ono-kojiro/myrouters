@@ -31,3 +31,12 @@ named_conf: named.conf
 named_dir: /usr/local/etc/namedb
 named_listen_on: "127.0.0.1; 192.168.122.99; 172.16.10.1; 172.16.20.1; 172.16.30.1;" 
 
+static_routes:
+- name: internal12
+  dst: 172.16.12.0/24
+  gw:   172.16.10.99
+
+- name: internal31
+  dst: 172.16.31.0/24
+  gw:   172.16.30.99
+

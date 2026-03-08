@@ -1,0 +1,31 @@
+---
+- name: remove temporary file
+  ansible.builtin.file:
+    path: /tmp/static_routes.txt
+    state: absent
+
+- name: enumerate names
+  ansible.builtin.shell: |
+    echo -n " {{ item.name }}" >> /tmp/static_routes.txt
+  loop: "{{ static_routes }}"
+
+- name: set static_routes
+  ansible.builtin.shell: |
+    static_routes=`cat /tmp/static_routes.txt | sed -e 's/^ //'`
+    sysrc static_routes="$static_routes"
+
+- name: remove temporary file
+  ansible.builtin.file:
+    path: /tmp/static_routes.txt
+    state: absent
+
+- name: set static routes
+  ansible.builtin.shell: |
+    sysrc route_{{ item.name }}="-net {{ item.dst }} {{ item.gw }}"
+  loop: "{{ static_routes }}"
+
+- name: restart routing
+  ansible.builtin.service:
+    name: routing
+    state: restarted
+

@@ -27,3 +27,6 @@
   - name: dhcpd
     tags: dhcpd
 
+  - name: static_routes
+    tags: static_routes
+
