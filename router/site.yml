@@ -1,0 +1,14 @@
+- name: setup router
+  hosts:
+  - router
+
+  roles:
+  - name: cacert
+    tags: cacert
+
+  - name: ntp
+    tags: ntp
+
+  - name: routing
+    tags: routing
+
