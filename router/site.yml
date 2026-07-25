@@ -12,3 +12,6 @@
   - name: routing
     tags: routing
 
+  - name: nat
+    tags: nat
+
