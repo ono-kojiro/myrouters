@@ -1,0 +1,48 @@
+---
+- name: install bind9
+  ansible.builtin.package:
+    name:
+    - bind920
+#    - bind9-utils
+#    - dnsutils
+    state: present
+
+- name: create named directory
+  ansible.builtin.file:
+    path: "{{ named_dir }}"
+    state: directory
+
+- name: copy named configurations
+  ansible.builtin.template:
+    src:  "{{ item }}"
+    dest: "{{ named_dir }}/"
+  loop:
+  - named.conf
+  - named.conf.local
+  - db.example.com
+  - db.172.16
+
+- name: include named.conf.local
+  ansible.builtin.lineinfile:
+    path: "{{ named_dir }}/{{ named_conf }}"
+    line: 'include "{{ named_dir }}/named.conf.local";'
+
+- name: replace /etc/resolv.conf
+  ansible.builtin.template:
+    src: resolv.conf
+    dest: /etc/resolv.conf
+    owner: root
+    group: wheel
+    mode: '0644'
+
+- name: enable named
+  community.general.sysrc:
+    name: named_enable
+    value: "YES"
+    path: /etc/rc.conf
+
+- name: restart named
+  ansible.builtin.service:
+    name: named
+    state: restarted
+
