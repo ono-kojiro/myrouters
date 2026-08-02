@@ -2,4 +2,6 @@
 *.swp
 hosts.yml
 *.crt
+*.key
+*.pem
 

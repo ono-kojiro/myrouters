@@ -2,4 +2,3 @@
 ansible_host: router
 ansible_become: true
 #ansible_become: false
-
