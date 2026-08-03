@@ -2,6 +2,8 @@
 
 ## enable ssh with console
 
+enable ssh
+
 ```
 # vi /conf/config.xml
 ...
@@ -17,8 +19,14 @@
       <permitrootlogin>1</permitrootlogin>    <!-- ADD -->
       <passwordauth>1</passwordauth>          <!-- ADD -->
     </ssh>
+```
 
+restart sshd
+
+```
 # configctl openssh restart
+or
+# /usr/local/etc/rc.sshd restart
 ```
 
 ## change user shell
@@ -44,6 +52,10 @@ Enter an option: 11 (Reload all services)
 
 ## add public key
 
+$ cat ~/.ssh/id_ed25519.pub | head -n 1 | base64
+
+copy base64 to "authorizedkeys"
+
 ```
 # vi /conf/config.xml
 
@@ -61,6 +73,8 @@ Enter an option: 11 (Reload all services)
 
 Enter an option: 11 (Reload all services)
 ```
+
+After this process, you can log-in via SSH without password.
 
 ## add api key
 
