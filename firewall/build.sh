@@ -42,7 +42,7 @@ default()
   ansible-playbook $flags -i hosts.yml -t $tag site.yml
 }
 
-apikey()
+generate_apikey()
 {
   mkdir -p group_vars
 
@@ -68,6 +68,11 @@ apikey()
       echo "hash: $hash"
     } | tee vars/apikey.yml
   fi
+}
+
+apikey()
+{
+  ansible-playbook $flags -i hosts.yml -t apikey site.yml
 }
 
 hosts

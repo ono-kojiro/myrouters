@@ -3,25 +3,11 @@
 
   vars_files:
   - vars/apikey.yml
-  
-  tasks:
-  - name: show key
-    ansible.builtin.debug:
-      msg: "{{ key }}"
 
-  - name: show hash
-    ansible.builtin.debug:
-      msg: "{{ hash }}"
+  roles:
+  - name: apikey
+    tags: apikey
 
-  - name: add apikeys
-    ansible.builtin.replace:
-      path: /conf/config.xml
-      regexp: '<apikeys/>'
-      replace: '<apikeys>{{ key }}|{{ hash }}</apikeys>'
-  
-  - name: replace apikeys
-    ansible.builtin.replace:
-      path: /conf/config.xml
-      regexp: '<apikeys>.*</apikeys>'
-      replace: '<apikeys>{{ key }}|{{ hash }}</apikeys>'
+  - name: misc
+    tags: misc
 

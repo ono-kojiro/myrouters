@@ -1,0 +1,7 @@
+---
+- name: replace  apikeys
+  ansible.builtin.replace:
+    path: /conf/config.xml
+    regexp: '<apikeys/>|<apikeys>.*</apikeys>'
+    replace: '<apikeys>{{ key }}|{{ hash }}</apikeys>'
+
