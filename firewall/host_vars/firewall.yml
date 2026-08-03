@@ -1,0 +1,4 @@
+---
+ansible_host: firewall
+ansible_become: false
+
