@@ -4,6 +4,8 @@ top_dir="$( cd "$( dirname "$0" )" >/dev/null 2>&1 && pwd )"
 cd $top_dir
 
 flags=""
+  
+vmname="Router"
 
 help()
 {
@@ -40,6 +42,31 @@ default()
 {
   tag=$1
   ansible-playbook $flags -i hosts.yml -t $tag site.yml
+}
+
+start()
+{
+  virsh start $vmname
+}
+
+stop()
+{
+  virsh shutdown $vmname
+}
+
+revert()
+{
+  echo "INFO: snapshot-info"
+  virsh snapshot-info --domain $vmname --current
+  snaps=`virsh snapshot-list $vmname | tail -n +3 | awk '{ print $1 }'`
+  for snap in $snaps; do
+    desc=`virsh snapshot-dumpxml $vmname $snap | xmllint --xpath "string(//description)" -`
+    echo "$snap : $desc"
+    #sudo virsh snapshot-revert --domain $vmname --snapshotname $snap
+    #break
+  done
+    
+  virsh snapshot-revert --domain $vmname --snapshotname $snap
 }
 
 hosts

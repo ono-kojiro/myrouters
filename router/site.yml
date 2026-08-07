@@ -3,6 +3,8 @@
   - router
 
   roles:
+  - { name: sssd, tags: sssd }
+
   - name: nat
     tags: nat
   

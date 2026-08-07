@@ -1,4 +1,25 @@
 ---
 ansible_host: router
-ansible_become: true
-#ansible_become: false
+
+# before sssd authentication
+ansible_become: false
+
+# after sssd authentication
+#ansible_become: true
+
+# freebsd
+sysconfdir: /usr/local/etc
+sssd_owner: root
+sudo_admin_group: ldapwheel
+
+ldap_addr: "192.168.1.72"
+ldap_uri: "ldap://{{ ldap_addr }}"
+ldap_suffix: "dc=example,dc=com"
+ldap_chpass_uri: "{{ ldap_uri }}"
+sssd_ldap_tls_reqcert: never
+sssd_allow_groups: ldapusers
+authorizedkeyscommand: /usr/local/bin/sss_ssh_authorizedkeys
+
+sshd_service: sshd
+
+
