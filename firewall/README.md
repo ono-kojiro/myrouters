@@ -1,6 +1,17 @@
 # OPNsense configuration
 
-## enable ssh with console
+## Install OPNsense
+
+### login to INSTALLER
+
+```
+login: installer
+Password: opnsense
+```
+
+## Initial Setup
+
+### enable ssh with console
 
 enable ssh
 
@@ -29,7 +40,7 @@ or
 # /usr/local/etc/rc.sshd restart
 ```
 
-## change user shell
+### change user shell
 
 
 ```
@@ -50,7 +61,15 @@ Enter an option: 11 (Reload all services)
 
 ```
 
-## add public key
+### connect with password
+
+```
+$ ssh 192.168.122.xxx -l root
+
+root@OPNsense:~ #
+```
+
+### add public key
 
 $ cat ~/.ssh/id_ed25519.pub | head -n 1 | base64
 
@@ -69,14 +88,15 @@ copy base64 to "authorizedkeys"
       ...
     </user>
 
-# exit
+# /usr/local/sbin/opnsense-shell
 
 Enter an option: 11 (Reload all services)
 ```
 
 After this process, you can log-in via SSH without password.
 
-## add api key
+## Advanced Setup
+### add api key
 
 ```
 # vi /conf/config.xml
