@@ -1,0 +1,10 @@
+---
+- name: upload resolvconf.conf (NOT resolv.conf)
+  ansible.builtin.template:
+    src: resolvconf.conf
+    dest: /etc/
+
+- name: update /etc/resolv.conf
+  ansible.builtin.shell: |
+    resolvconf -u
+

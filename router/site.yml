@@ -5,6 +5,9 @@
   roles:
   - { name: sssd, tags: sssd }
 
+  - name: resolvconf
+    tags: resolvconf
+
   - name: nat
     tags: nat
   
