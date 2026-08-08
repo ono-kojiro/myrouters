@@ -1,0 +1,49 @@
+- name: setup bridge and docker network
+  hosts: myserver
+  
+  #environment:
+  #  http_proxy: http://proxy.example.com:8080
+  #  https_proxy: http://proxy.example.com:8080
+
+  tasks:  
+    - name: delete docker networks
+      ansible.builtin.shell: |
+        num=`docker network ls --format json | jq -r ". | .Name" | \
+          grep -e "^{{ item.name }}$" | wc -l`
+        if [ "$num" -ne 0 ]; then
+          docker network rm {{ item.name }}
+        fi
+      loop: "{{ networks }}"
+      tags: delnw, never
+
+    - name: delete bridges
+      ansible.builtin.shell: |
+        num=`nmcli --fields name con show | grep -e '^{{ item.name }}$' | wc -l`
+        if [ "$num" -ne 0 ]; then
+          sudo nmcli con del {{ item.name }}
+        fi
+      loop: "{{ networks }}"
+      tags: delbr, never
+      
+    - name: create bridges
+      ansible.builtin.shell: |
+        nmcli con add \
+          type bridge \
+          ifname {{ item.name }} \
+          conn.id {{ item.name }} \
+          ipv4.method disable \
+          ipv6.method disable
+      loop: "{{ networks }}"
+      tags: addbr
+
+    - name: create docker networks
+      ansible.builtin.shell: |
+        docker network create \
+          --driver={{ item.driver }} \
+          --subnet={{ item.subnet }} \
+          --gateway={{ item.gateway }} \
+          -o "parent={{ item.name }}" \
+          {{ item.name }}
+      loop: "{{ networks }}"
+      tags: addnw
+

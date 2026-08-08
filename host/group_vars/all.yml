@@ -1,0 +1,36 @@
+---
+#docker_network_driver: ipvlan
+docker_network_driver: macvlan
+
+networks:
+- name: wan
+  driver: "{{ docker_network_driver }}"
+  subnet: 172.16.0.0/24
+  gateway: 172.16.0.1
+
+- name: opt1
+  driver: "{{ docker_network_driver }}"
+  subnet: 172.16.1.0/24
+  gateway: 172.16.1.1
+
+- name: opt2
+  driver: "{{ docker_network_driver }}"
+  subnet: 172.16.2.0/24
+  gateway: 172.16.2.1
+
+- name: opt3
+  driver: "{{ docker_network_driver }}"
+  subnet: 172.16.3.0/24
+  gateway: 172.16.3.1
+
+- name: opt4
+  driver: "{{ docker_network_driver }}"
+  subnet: 172.16.4.0/24
+  gateway: 172.16.4.1
+
+- name: inet
+  driver: "{{ docker_network_driver }}"
+  subnet: 172.16.99.0/24
+  gateway: 172.16.99.1
+
+
