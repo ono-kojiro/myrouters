@@ -1,6 +1,0 @@
-.env
-*.tar.xz
-OPNsense/
-__pycache__/
-controllers.mk
-
