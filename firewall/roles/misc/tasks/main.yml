@@ -12,3 +12,7 @@
     insertbefore: '</webgui>'
   when: res.stdout.strip() == "0"
 
+- name: restart configd
+  ansible.builtin.shell: |
+    service configd restart
+

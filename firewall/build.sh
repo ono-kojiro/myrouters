@@ -42,34 +42,6 @@ default()
   ansible-playbook $flags -i hosts.yml -t $tag site.yml
 }
 
-generate_apikey()
-{
-  mkdir -p group_vars
-
-  if [ ! -e apikey.shrc ]; then
-    key=`openssl rand -base64 48`
-    echo "key is $key" 
-    
-    secret=`openssl rand -hex 32`
- 
-    echo "secret is $secret"
-    hash=`openssl passwd -6 "$secret"`
-
-    echo "hash is $hash"
-
-    {
-      echo "key=$key"
-      echo "secret=$secret"
-    } | tee apikey.shrc
-
-    {
-      echo "---"
-      echo "key: $key"
-      echo "hash: $hash"
-    } | tee vars/apikey.yml
-  fi
-}
-
 apikey()
 {
   ansible-playbook $flags -i hosts.yml -t apikey site.yml
@@ -88,6 +60,15 @@ extract()
 {
   mkdir -p work
   tar -C work/ -xJvf ${top_dir}/OPNsense.tar.xz
+}
+
+test()
+{
+  #. ./apikey.shrc
+  . ./key_and_secret.shrc
+
+  url=https://192.168.122.99/api/core/system/status
+  curl -s -u "$key:$secret" -k $url | jq .
 }
 
 hosts
