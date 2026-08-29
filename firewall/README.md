@@ -144,6 +144,11 @@ Enter an option: 11 (Reload all services)
 After this process, you can log-in via SSH without password.
 
 ## Advanced Setup
+
+### create api key and hashed secret
+
+run ./create_api_key.sh
+
 ### add api key
 
 ```

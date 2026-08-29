@@ -1,6 +1,7 @@
 #!/bin/sh
 
-. ./apikey.shrc
+#. ./apikey.shrc
+. ./key_and_secret.shrc
 
 url=https://192.168.122.99/api/core/system/status
 
