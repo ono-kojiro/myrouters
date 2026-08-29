@@ -75,6 +75,21 @@ apikey()
   ansible-playbook $flags -i hosts.yml -t apikey site.yml
 }
 
+fetch()
+{
+  ssh firewall -l root \
+    tar -C /usr/local/opnsense/mvc/app/controllers \
+      -cJvf /tmp/OPNsense.tar.xz OPNsense
+  scp root@firewall:/tmp/OPNsense.tar.xz .
+  ssh firewall -l root rm -f /tmp/OPNsense.tar.xz
+}
+
+extract()
+{
+  mkdir -p work
+  tar -C work/ -xJvf ${top_dir}/OPNsense.tar.xz
+}
+
 hosts
 
 args=""
